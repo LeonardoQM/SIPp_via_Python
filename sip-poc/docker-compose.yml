@@ -1,0 +1,17 @@
+services:
+
+  asterisk:
+    image: andrius/asterisk:latest
+    container_name: sip-poc-asterisk
+    ports:
+      - "5060:5060/udp"
+      - "5060:5060/tcp"
+    volumes:
+      - ./asterisk/pjsip.conf:/etc/asterisk/pjsip.conf
+      - ./asterisk/extensions.conf:/etc/asterisk/extensions.conf
+
+  tester:
+    build:
+      context: ./tester
+    container_name: sip-poc-tester
+    network_mode: "service:asterisk"
